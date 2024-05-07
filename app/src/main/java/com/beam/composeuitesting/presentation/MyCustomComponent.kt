@@ -29,3 +29,17 @@ fun MyCustomComponent() {
         )
     }
 }
+
+@Composable
+fun MySecondComponent() {
+    var name by remember { mutableStateOf("") }
+
+    Column {
+        TextField(
+            value = name,
+            onValueChange = { name = it },
+            modifier = Modifier.testTag("greetingTextField")
+        )
+        Text(text = "Hello $name", modifier = Modifier.testTag("greetingText"))
+    }
+}

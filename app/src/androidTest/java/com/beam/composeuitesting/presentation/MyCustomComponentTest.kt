@@ -28,7 +28,6 @@ import androidx.compose.ui.test.performTextClearance
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.performTextReplacement
 import androidx.compose.ui.test.performTouchInput
-import androidx.compose.ui.test.swipe
 import androidx.compose.ui.test.swipeDown
 import androidx.compose.ui.test.swipeLeft
 import androidx.compose.ui.test.swipeRight
@@ -86,5 +85,24 @@ class MyCustomComponentTest {
         composeTestRule.onNodeWithText(text = "hey").assertIsOff()
         composeTestRule.onNodeWithText(text = "hey").assertTextEquals("")
         composeTestRule.onNodeWithText(text = "hey").assertTextContains("")
+    }
+
+    @Test
+    fun whenComponentStart_thenVerifyContentIsHello() {
+        composeTestRule.setContent {
+            MyCustomComponent()
+        }
+
+        composeTestRule.onNodeWithText("Hello", ignoreCase = true).assertExists()
+        composeTestRule.onNodeWithTag("component-1").assertTextContains("Hello", ignoreCase = true)
+    }
+
+    @Test
+    fun whenNameIsAdded_thenVerifyTextContainsGreetings() {
+        composeTestRule.setContent {
+            MySecondComponent()
+        }
+        composeTestRule.onNodeWithTag("greetingTextField").performTextInput("Bryan")
+        composeTestRule.onNodeWithTag("greetingText").assertTextEquals("Hello Bryan")
     }
 }
